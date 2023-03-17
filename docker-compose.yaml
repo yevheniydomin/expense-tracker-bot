@@ -1,0 +1,24 @@
+version: '3.9'
+
+services: 
+  pg:
+    image: postgres:14.7-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - ../postgres-data:/var/lib/postgresql/data
+  
+  pg-admin:
+    image: dpage/pgadmin4:6.21
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+    - '5050:5050'
+
+  
