@@ -1,0 +1,22 @@
+{
+  "name": "finance-tracker-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yevheniydomin/fin-tracker-bot.git"
+  },
+  "author": "Yevhen Domin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yevheniydomin/fin-tracker-bot/issues"
+  },
+  "homepage": "https://github.com/yevheniydomin/fin-tracker-bot#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
