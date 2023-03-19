@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
-    "docker-compose-up": "set -a && source ../.env && cd .. && docker-compose up && set +a"
+    "dc": "set -a && source ../.env && cd .. && docker-compose up && set +a"
   },
   "repository": {
     "type": "git",
