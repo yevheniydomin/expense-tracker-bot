@@ -13,8 +13,12 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     price: {
-      type: Sequelize.DECIMAL(2),
-      allowNull: false
+      type: Sequelize.DECIMAL(8,2),
+      // allowNull: false
+    },
+    date: {
+      type: Sequelize.DATEONLY,
+      allowNull: true
     },
   },
   { timestamps: false }

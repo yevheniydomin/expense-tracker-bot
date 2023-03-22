@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Category = sequelize.define ('categories', {
+  const TransactionType = sequelize.define ('transaction_types', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -10,12 +10,12 @@ module.exports = (sequelize) => {
     },
     title: {
       type: Sequelize.STRING(100),
-      allowNull: true,
+      allowNull: false,
       unique: true
-    }
+    },
   },
   { timestamps: false }
   );
 
-  return Category;
+  return TransactionType;
 }

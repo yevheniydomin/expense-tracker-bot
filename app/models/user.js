@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Category = sequelize.define ('categories', {
+  const User = sequelize.define ('users', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -10,12 +10,11 @@ module.exports = (sequelize) => {
     },
     title: {
       type: Sequelize.STRING(100),
-      allowNull: true,
-      unique: true
-    }
+      allowNull: false
+    },
   },
   { timestamps: false }
   );
 
-  return Category;
+  return User;
 }
