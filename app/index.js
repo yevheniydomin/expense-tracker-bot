@@ -3,15 +3,13 @@ const { sequelize } = require('./db');
 const { Telegraf, Markup } = require('telegraf');
 const { message } = require('telegraf/filters');
 require('dotenv').config();
+const { getCategoryMarkdownButtons } = require('./buttons');
+
 
 const categoryList = require('./defaultData/dbData');
 const { addExpense } = require('./expenses');
 
 const db = require('./db');
-const Category = db.category;
-const Transaction = db.transaction;
-const TransactionType = db.transactionType;
-const User = db.user;
 
 const bot = new Telegraf(process.env.TELEGRAM_API);
 bot.start(async (ctx) => { ctx.reply('What can I help?', Markup.inlineKeyboard(
@@ -22,31 +20,8 @@ bot.start(async (ctx) => { ctx.reply('What can I help?', Markup.inlineKeyboard(
 ))});
 
 bot.action('btn_1', async (ctx) => {
-  try {
-    //getting categories from db
-    const categories = await db.getAllCategoriesByTypeId(1);
-    const buttonsLinesCount = parseInt(categories.length / 3); 
-    let buttons = [];
-
-    // 3 buttons in one line
-    for (let i = 0; i < buttonsLinesCount; i++) { 
-      buttons.push([]);
-    }
-
-    let countLine = 0;
-    for(let i = 0; i < categories.length; i++) {
-      buttons[countLine].push(Markup.button.callback(`${categories[i].id} - ${categories[i].title}`, categories[i].id));
-      if(buttons[countLine].length === 3) {
-        countLine++
-      }
-    }
-    await ctx.reply('Ctegories: ', Markup.inlineKeyboard(buttons));
-
-    return categories;
-  } catch (err) {
-    ctx.reply('Ups... Error has occured', err);
-    console.error(err);
-  }
+  const buttons  = await getCategoryMarkdownButtons();
+  ctx.reply('Ctegories: ', Markup.inlineKeyboard(buttons));
 });
 
 db.testDbConnection();
