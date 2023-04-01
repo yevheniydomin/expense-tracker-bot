@@ -93,7 +93,7 @@ getAllCategoriesByTypeId = async function (type) {
       }
     });
     return categories.map((category) => {
-      return category.title;
+      return category;
     });
 
   } catch (err) {

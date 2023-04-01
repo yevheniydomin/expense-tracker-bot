@@ -23,6 +23,7 @@ bot.start(async (ctx) => { ctx.reply('What can I help?', Markup.inlineKeyboard(
 
 bot.action('btn_1', async (ctx) => {
   try {
+    //getting categories from db
     const categories = await db.getAllCategoriesByTypeId(1);
     const buttonsLinesCount = parseInt(categories.length / 3); 
     let buttons = [];
@@ -34,13 +35,14 @@ bot.action('btn_1', async (ctx) => {
 
     let countLine = 0;
     for(let i = 0; i < categories.length; i++) {
-      buttons[countLine].push(Markup.button.callback(categories[i], categories[i]));
+      buttons[countLine].push(Markup.button.callback(`${categories[i].id} - ${categories[i].title}`, categories[i].id));
       if(buttons[countLine].length === 3) {
         countLine++
       }
     }
-    
-    ctx.reply('Ctegories: ', Markup.inlineKeyboard(buttons));
+    await ctx.reply('Ctegories: ', Markup.inlineKeyboard(buttons));
+
+    return categories;
   } catch (err) {
     ctx.reply('Ups... Error has occured', err);
     console.error(err);
