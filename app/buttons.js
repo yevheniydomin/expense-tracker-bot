@@ -8,8 +8,8 @@ const getCategoryMarkdownButtons = async function () {
   try {
     //getting categories from db
     const categories = await db.getAllCategoriesByTypeId(1);
-    let buttonsLinesCount = await parseInt(categories.length / 3);
-    if (categories.length % 3) buttonsLinesCount++;
+    let buttonsLinesCount = await parseInt(categories.length / 5);
+    if (categories.length % 5) buttonsLinesCount++;
     let buttons = [];
   
     // 3 buttons in one line
@@ -19,14 +19,13 @@ const getCategoryMarkdownButtons = async function () {
   
     let countLine = 0;
     for(let i = 0; i < categories.length; i++) {
-      buttons[countLine].push(Markup.button.callback(`${categories[i].id} - ${categories[i].title}`, `ctg-${categories[i].id}`));
-      if(buttons[countLine].length === 3) {
+      buttons[countLine].push(Markup.button.callback(categories[i].id, categories[i].id));
+      if(buttons[countLine].length === 5) {
         countLine++
       }
     }
     console.log(buttons);
     return buttons
-    //await ctx.reply('Ctegories: ', Markup.inlineKeyboard(buttons));
   } catch (err) {
     console.error(err);
   }
