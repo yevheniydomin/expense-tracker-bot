@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
     },
     price: {
       type: Sequelize.DECIMAL(8,2),
-      // allowNull: false
+      allowNull: false
     },
     date: {
       type: Sequelize.DATEONLY,

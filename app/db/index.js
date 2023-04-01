@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const categoryList = require('../initData/dbData');
+const categoryList = require('../defaultData/dbData');
 
 const sequelize = new Sequelize('postgres://yev:qwerty2023@localhost:5432/dev');
 const Category = require('./category')(sequelize);
@@ -84,6 +84,23 @@ addTransaction = async function (options) {
   }
 }
 
+//type = integer
+getAllCategoriesByTypeId = async function (type) {
+  try {
+    const categories = await Category.findAll({
+      where: {
+        transactionTypeId: type
+      }
+    });
+    return categories.map((category) => {
+      return category.title;
+    });
+
+  } catch (err) {
+    console.error('Error getting all expense categories from DB', err);
+  }
+}
+
 module.exports = {
   sequelize: sequelize,
   category: Category,
@@ -95,7 +112,8 @@ module.exports = {
   categoryTableInit: categoryTableInit,
   addUser: addUser,
   addTransaction: addTransaction,
-  dbInit: dbInit
+  dbInit: dbInit,
+  getAllCategoriesByTypeId: getAllCategoriesByTypeId,
 }
 
 
