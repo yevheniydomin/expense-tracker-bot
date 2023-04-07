@@ -1,6 +1,6 @@
 const { Scenes, Markup } = require('telegraf');
-const db = require('./db');
-const { getCategoryMarkdownButtons } = require('./buttons');
+const db = require('../db');
+const { getCategoryMarkdownButtons } = require('../buttons');
 
 
 const addExpenseScene = new Scenes.BaseScene('addExpenseScene');
@@ -19,10 +19,15 @@ addExpenseScene.enter(async (ctx) => {
 });
 
 addExpenseScene.on('callback_query', async (ctx) => {
-  const callbackData = ctx.update.callback_query.data;
-  const buttons = ctx.scene.session.buttons;
-  const clickedButton = buttons.find(button => button.callback_data === callbackData);
-  ctx.reply(`${callbackData}`);
+  try {
+    const callbackData = ctx.update.callback_query.data;
+    const buttons = ctx.scene.session.buttons;
+    const clickedButton = buttons.find(button => button.callback_data === callbackData);
+    ctx.reply(`${callbackData}`);
+  } catch (err) {
+    console.error('Error on clicking category button: \n', err);
+  }
+ 
 })
 
 

@@ -1,8 +1,8 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const { sequelize } = require('./db');
+// const { Sequelize, DataTypes } = require('sequelize');
+// const { sequelize } = require('./db');
 const db = require('./db');
-const { Telegraf, Markup } = require('telegraf');
-const { message } = require('telegraf/filters');
+const { Markup } = require('telegraf');
+
 
 const getCategoryMarkdownButtons = async function () {
   try {
@@ -24,7 +24,6 @@ const getCategoryMarkdownButtons = async function () {
         countLine++
       }
     }
-    console.log(buttons);
     return buttons
   } catch (err) {
     console.error(err);

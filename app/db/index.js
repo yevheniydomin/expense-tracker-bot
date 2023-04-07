@@ -101,6 +101,31 @@ getAllCategoriesByTypeId = async function (type) {
   }
 }
 
+const addExpense = async function (args) {
+  const { userId, categoryId, comment, price, date } = args;
+  if (! await Category.findOne({ categoryId: categoryId })) {
+    console.log('Message to user, that category doesnt exist');
+    return;
+  }
+
+  if (!Number.isInteger(price)) {
+    console.log('Write message to user that price should be a number');
+  }
+
+  try {
+    Transaction.create({
+      description: comment,
+      price: price,
+      date: date,
+      categoryId: categoryId,
+      transactionTypeId: 1,
+      userId: userId
+    });
+  } catch (err) {
+    console.log('Write message to user that error has been occured on adding expense', err);
+  }
+}
+
 module.exports = {
   sequelize: sequelize,
   category: Category,
@@ -114,6 +139,7 @@ module.exports = {
   addTransaction: addTransaction,
   dbInit: dbInit,
   getAllCategoriesByTypeId: getAllCategoriesByTypeId,
+  addExpense: addExpense,
 }
 
 
