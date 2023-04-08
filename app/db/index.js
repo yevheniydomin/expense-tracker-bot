@@ -101,9 +101,18 @@ getAllCategoriesByTypeId = async function (type) {
   }
 }
 
+const getCategoryTitleById = async function (id) {
+  try {
+    const category = await Category.findOne({ where: { id }});
+    return category.title;
+  } catch (err) {
+    console.log('Error on getting category title by id \n', err);
+  }
+}
+
 const addExpense = async function (args) {
-  const { userId, categoryId, comment, price, date } = args;
-  if (! await Category.findOne({ categoryId: categoryId })) {
+  const { userId, categoryId, description, price, date } = args;
+  if (!await Category.findOne({ categoryId: categoryId })) {
     console.log('Message to user, that category doesnt exist');
     return;
   }
@@ -114,12 +123,12 @@ const addExpense = async function (args) {
 
   try {
     Transaction.create({
-      description: comment,
-      price: price,
-      date: date,
-      categoryId: categoryId,
+      description,
+      price,
+      date,
+      categoryId,
       transactionTypeId: 1,
-      userId: userId
+      userId
     });
   } catch (err) {
     console.log('Write message to user that error has been occured on adding expense', err);
@@ -140,6 +149,7 @@ module.exports = {
   dbInit: dbInit,
   getAllCategoriesByTypeId: getAllCategoriesByTypeId,
   addExpense: addExpense,
+  getCategoryTitleById,
 }
 
 
