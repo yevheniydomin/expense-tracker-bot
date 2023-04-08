@@ -21,11 +21,16 @@ addExpenseScene.enter(async (ctx) => {
 addExpenseScene.on('callback_query', async (ctx) => {
   try {
     const callbackData = ctx.update.callback_query.data;
+    const buttonsIds = ctx.scene.session.buttonsIds;
     const buttons = ctx.scene.session.buttons;
     const clickedButton = buttons.find(button => button.callback_data === callbackData);
-    ctx.reply(`${callbackData}`);
+
+    if(buttonsIds.includes(parseInt(callbackData))) {
+      ctx.reply(`${callbackData}`);
+    }
+    
   } catch (err) {
-    console.error('Error on clicking category button: \n', err);
+    console.error('Error on callback_quary handling: \n', err);
   }
  
 })
