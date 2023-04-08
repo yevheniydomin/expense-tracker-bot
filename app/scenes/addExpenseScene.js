@@ -1,6 +1,6 @@
 const { Scenes, Markup, Composer } = require('telegraf');
 const db = require('../db');
-const { getCategoryMarkdownButtons } = require('../buttons');
+const { getCategoryMarkdownButtons, getDatesMarkdownButtons } = require('../common/buttons');
 
 
 const categoryStep = new Composer();
@@ -32,13 +32,35 @@ descriptionStep.on('message', async (ctx) => {
 const priceStep = new Composer();
 priceStep.on('message', async (ctx) => {
   try {
-    ctx.reply('Price step. started!');
+    // get date buttons for the next step
+    const buttons = await getDatesMarkdownButtons();
+
+    // Validate sum input
+    const regex = /^\d+(?:\.\d{0,2})$/;
+    if(regex.test(ctx.message.text)) {
+      ctx.scene.session.price = Number(ctx.message.text);
+      await ctx.deleteMessage();
+      await ctx.reply('Chose the date:\n', Markup.inlineKeyboard(buttons));
+      return ctx.wizard.next();
+    }  
   } catch (err) {
     console.log('Error occured on adding price step\n', err);
   }
 });
 
-const addExpenseScene = new Scenes.WizardScene('addExpenseScene', categoryStep, descriptionStep, priceStep);
+const dateStep = new Composer();
+dateStep.on('callback_query', async (ctx) => {
+  try {
+    
+    const pickedDateId = await parseInt(ctx.update.callback_query.data);
+    ctx.reply(`dateID - ${pickedDateId}`);
+  } catch(err) {
+    ctx.reply('Error has been occured on dateStep wizard scene. Please see console.');
+    console.error(err);
+  }
+});
+
+const addExpenseScene = new Scenes.WizardScene('addExpenseScene', categoryStep, descriptionStep, priceStep, dateStep);
 addExpenseScene.enter(async (ctx) => {
   const categories = await db.getAllCategoriesByTypeId(1);
   const buttons = await getCategoryMarkdownButtons();

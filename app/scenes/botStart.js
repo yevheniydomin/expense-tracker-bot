@@ -1,7 +1,7 @@
 const { Markup } = require('telegraf');
 
 const sendMainMenuButtons = async function(ctx) { 
-  const  context  = ctx;
+  const context  = ctx;
   context.reply('What we will do?', Markup.inlineKeyboard(
   [
     [
