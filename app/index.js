@@ -4,12 +4,10 @@ const {
   Telegraf,
   Markup,
   Scenes: { Stage },
-  Scenes,
   session,
 } = require('telegraf');
 require('dotenv').config();
 const db = require('./db');
-const addExpenseToSpreadsheet = require('./google/index');
 const sendMainMenuButtons = require('./scenes/botStart');
 const addExpenseScene = require('./scenes/addExpenseScene');
 const addIncomeScene = require('./scenes/addIncomeScene');

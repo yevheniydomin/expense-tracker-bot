@@ -41,7 +41,7 @@ const getDatesMarkdownButtons = async function () {
         Markup.button.callback(
           moment()
             .add(i - 9, 'days')
-            .format('DD-MMMM'),
+            .format('DD MMMM'),
           i
         )
       );
@@ -49,7 +49,7 @@ const getDatesMarkdownButtons = async function () {
         Markup.button.callback(
           moment()
             .add(i - 6, 'days')
-            .format('DD-MMMM'),
+            .format('DD MMMM'),
           i + 3
         )
       );
@@ -57,7 +57,7 @@ const getDatesMarkdownButtons = async function () {
         Markup.button.callback(
           moment()
             .add(i - 3, 'days')
-            .format('DD-MMMM'),
+            .format('DD MMMM'),
           i + 6
         )
       );

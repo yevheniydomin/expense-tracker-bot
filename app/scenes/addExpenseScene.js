@@ -23,8 +23,9 @@ categoryStep.on('callback_query', async (ctx) => {
 const descriptionStep = new Composer();
 descriptionStep.on('message', async (ctx) => {
   try {
+    await ctx.deleteMessage();
     ctx.scene.session.description = ctx.message.text;
-    ctx.reply(`Enter expense amount:`);
+    await ctx.reply(`Enter expense amount:`);
     return ctx.wizard.next();
   } catch (err) {
     ctx.reply('Error occured on Description step', err);
@@ -45,6 +46,8 @@ priceStep.on('message', async (ctx) => {
       await ctx.reply('Chose the date:\n', Markup.inlineKeyboard(buttons));
       return ctx.wizard.next();
     }
+    await ctx.deleteMessage();
+    await ctx.reply('Repeat using finance format like 10.00');
   } catch (err) {
     console.log('Error occured on adding price step\n', err);
   }
@@ -102,7 +105,7 @@ addExpenseToDB.on('callback_query', async (ctx) => {
       });
       
       if(ctx.chat.id === chatIdYev || chatIdAlina ) {
-        ctx.chat.id === chatIdYev ? tabTitle = process.env.GS_TAB_TITLE_YEV : process.env.GS_TAB_TITLE_ALINA;
+        ctx.chat.id === chatIdYev ? tabTitle = process.env.GS_TAB_TITLE_YEV : tabTitle = process.env.GS_TAB_TITLE_ALINA;
         await addExpenseToSpreadsheet({
           categoryId,
           description,

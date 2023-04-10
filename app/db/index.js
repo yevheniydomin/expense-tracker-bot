@@ -1,7 +1,17 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const categoryList = require('../defaultData/dbData');
 
-const sequelize = new Sequelize('postgres://yev:qwerty2023@localhost:5432/dev');
+//const sequelize = new Sequelize('postgres://yev:qwerty2023@localhost:5432/dev');
+const sequelize = new Sequelize(
+  process.env.POSTGRES_DATABASE,
+  process.env.POSTGRES_USERNAME,
+  process.env.POSTGRES_PASSWORD,
+  {
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    dialect: process.env.POSTGRES_DIALECT,
+  },
+);
 const Category = require('./category')(sequelize);
 const Transaction = require('./transaction')(sequelize);
 const TransactionType = require('./transactionType')(sequelize);
