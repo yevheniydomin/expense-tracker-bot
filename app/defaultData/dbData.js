@@ -21,7 +21,7 @@ const categoryList = [
   ['Yevhen Salary', 2],
   ['Alina Salary', 2],
   ['Child benefits', 2],
-  ['Other income', 2]
-]
+  ['Other income', 2],
+];
 
 module.exports = categoryList;

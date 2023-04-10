@@ -7,5 +7,4 @@ addIncomeScene.enter((ctx) => {
   ctx.scene.leave();
 });
 
-
 module.exports = addIncomeScene;

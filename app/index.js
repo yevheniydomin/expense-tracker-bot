@@ -1,6 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const { sequelize, category} = require('./db');
-const { Telegraf, Markup, Scenes: { Stage }, Scenes, session } = require('telegraf');
+const { sequelize, category } = require('./db');
+const {
+  Telegraf,
+  Markup,
+  Scenes: { Stage },
+  Scenes,
+  session,
+} = require('telegraf');
 require('dotenv').config();
 const db = require('./db');
 const sendMainMenuButtons = require('./scenes/botStart');
@@ -16,7 +22,10 @@ addIncomeScene.enter((ctx) => ctx.reply('Income'));
 // const visitSpreadsheetScene = require('./visitSpreadsheetScene');
 
 // Register the scenes
-const stage = new Stage([addExpenseScene, addIncomeScene /*getReportScene, visitSpreadsheetScene */]);
+const stage = new Stage([
+  addExpenseScene,
+  addIncomeScene /*getReportScene, visitSpreadsheetScene */,
+]);
 bot.use(session());
 bot.use(stage.middleware());
 
@@ -26,11 +35,16 @@ bot.action('btn_2', Stage.enter('addIncomeScene'));
 
 db.testDbConnection();
 db.sequelize.sync().then(async () => {
-  await db.addExpense({ userId: 1, categoryId: 1, comment: 'Blue Traktor', price: 38.50, date: '2023-04-07' });
+  await db.addExpense({
+    userId: 1,
+    categoryId: 1,
+    comment: 'Blue Traktor',
+    price: 38.5,
+    date: '2023-04-07',
+  });
 });
 
 bot.launch();
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
-

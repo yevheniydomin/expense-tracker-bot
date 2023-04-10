@@ -22,51 +22,51 @@ const testDbConnection = async function () {
 };
 
 transactionTypeTableInit = async function (transactionTypesList) {
-  transactionTypesList.forEach(type => {
+  transactionTypesList.forEach((type) => {
     try {
-        TransactionType.findOrCreate({
+      TransactionType.findOrCreate({
         where: { title: type },
-        defaults: { title: type }
+        defaults: { title: type },
       });
     } catch (error) {
-    console.log ('Error on adding transaction types to DB ', error);
-  }
+      console.log('Error on adding transaction types to DB ', error);
+    }
   });
 };
 
 categoryTableInit = async function (categoryList) {
-  categoryList.forEach(category => {
+  categoryList.forEach((category) => {
     try {
-        Category.findOrCreate({
-        where: { 
+      Category.findOrCreate({
+        where: {
           title: category[0],
-          transactionTypeId: category[1]
+          transactionTypeId: category[1],
         },
-        defaults: { 
+        defaults: {
           title: category[0],
-          transactionTypeId: category[1] 
-        }
+          transactionTypeId: category[1],
+        },
       });
     } catch (error) {
-    console.log ('Error on adding transaction types to DB ', error);
-  }
+      console.log('Error on adding transaction types to DB ', error);
+    }
   });
 };
 
 addUser = async function (userList) {
-  userList.forEach(user => {
+  userList.forEach((user) => {
     try {
-        User.findOrCreate({
-        where: { 
+      User.findOrCreate({
+        where: {
           title: user,
         },
-        defaults: { 
-          title: user, 
-        }
+        defaults: {
+          title: user,
+        },
       });
     } catch (error) {
-    console.log ('Error on adding transaction types to DB ', error);
-  }
+      console.log('Error on adding transaction types to DB ', error);
+    }
   });
 };
 
@@ -74,51 +74,50 @@ dbInit = async function () {
   await transactionTypeTableInit(['Expense', 'Income', 'Move', 'Borow']);
   await categoryTableInit(categoryList);
   await addUser(['Yevhen', 'Alina']);
-}
+};
 
 addTransaction = async function (options) {
   try {
-   await Transaction.create(options)
+    await Transaction.create(options);
   } catch (error) {
     console.log('Error on adding transaction to DB ', error);
   }
-}
+};
 
 //type = integer
 getAllCategoriesByTypeId = async function (type) {
   try {
     const categories = await Category.findAll({
       where: {
-        transactionTypeId: type
-      }
+        transactionTypeId: type,
+      },
     });
     return categories.map((category) => {
       return category;
     });
-
   } catch (err) {
     console.error('Error getting all expense categories from DB', err);
   }
-}
+};
 
 const getCategoryTitleById = async function (id) {
   try {
-    const category = await Category.findOne({ where: { id }});
+    const category = await Category.findOne({ where: { id } });
     return category.title;
   } catch (err) {
     console.log('Error on getting category title by id \n', err);
   }
-}
+};
 
 const addExpense = async function (args) {
   const { userId, categoryId, description, price, date } = args;
-  if (!await Category.findOne({ categoryId: categoryId })) {
+  if (!(await Category.findOne({ categoryId: categoryId }))) {
     console.log('Message to user, that category doesnt exist');
     return;
   }
 
   if (!Number.isInteger(price)) {
-    console.log('Write message to user that price should be a number');
+    console.log('Price should be a number');
   }
 
   try {
@@ -128,12 +127,12 @@ const addExpense = async function (args) {
       date,
       categoryId,
       transactionTypeId: 1,
-      userId
+      userId,
     });
   } catch (err) {
-    console.log('Write message to user that error has been occured on adding expense', err);
+    console.log('Error has been occured on adding expense', err);
   }
-}
+};
 
 module.exports = {
   sequelize: sequelize,
@@ -150,9 +149,4 @@ module.exports = {
   getAllCategoriesByTypeId: getAllCategoriesByTypeId,
   addExpense: addExpense,
   getCategoryTitleById,
-}
-
-
-
-
-
+};
