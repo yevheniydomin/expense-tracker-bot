@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
     dialect: process.env.POSTGRES_DIALECT,
-  },
+  }
 );
 const Category = require('./category')(sequelize);
 const Transaction = require('./transaction')(sequelize);
@@ -63,27 +63,25 @@ categoryTableInit = async function (categoryList) {
   });
 };
 
-addUser = async function (userList) {
-  userList.forEach((user) => {
-    try {
-      User.findOrCreate({
-        where: {
-          title: user,
-        },
-        defaults: {
-          title: user,
-        },
-      });
-    } catch (error) {
-      console.log('Error on adding transaction types to DB ', error);
-    }
-  });
+const anotherTitle = async function (chatId) {
+  try {
+    await User.findOrCreate({
+      where: {
+        chatId,
+      },
+      defaults: {
+        chatId,
+      },
+    });
+  } catch (error) {
+    console.log('Error on adding transaction types to DB ', error);
+  }
 };
 
 dbInit = async function () {
   await transactionTypeTableInit(['Expense', 'Income', 'Move', 'Borow']);
   await categoryTableInit(categoryList);
-  await addUser(['Yevhen', 'Alina']);
+  //await addNewUser(181703780);
 };
 
 addTransaction = async function (options) {
@@ -110,7 +108,7 @@ getAllCategoriesByTypeId = async function (type) {
   }
 };
 
-const getCategoryTitleById = async function (id) {
+getCategoryTitleById = async function (id) {
   try {
     const category = await Category.findOne({ where: { id } });
     return category.title;
@@ -119,7 +117,7 @@ const getCategoryTitleById = async function (id) {
   }
 };
 
-const addExpense = async function (args) {
+addExpense = async function (args) {
   const { userId, categoryId, description, price, date } = args;
   if (!(await Category.findOne({ categoryId: categoryId }))) {
     console.log('Message to user, that category doesnt exist');
@@ -144,6 +142,20 @@ const addExpense = async function (args) {
   }
 };
 
+getUserIdByChatId = async function (chatId) {
+  try {
+    const user = await User.findOne(
+    {
+      where: {
+        chatId
+      }
+    });
+    return user.id;
+  } catch (err) {
+    console.error('Error on getting userId from db');
+  }
+}
+
 module.exports = {
   sequelize: sequelize,
   category: Category,
@@ -153,10 +165,11 @@ module.exports = {
   testDbConnection: testDbConnection,
   transactionTypeTableInit: transactionTypeTableInit,
   categoryTableInit: categoryTableInit,
-  addUser: addUser,
   addTransaction: addTransaction,
   dbInit: dbInit,
   getAllCategoriesByTypeId: getAllCategoriesByTypeId,
   addExpense: addExpense,
   getCategoryTitleById,
+  getUserIdByChatId,
+  addNewUser: anotherTitle,
 };

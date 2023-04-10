@@ -90,8 +90,9 @@ addExpenseToDB.on('callback_query', async (ctx) => {
     if (ctx.update.callback_query.data === 'confirm') {
       const { categoryId, description, price, date } = ctx.scene.session;
       const transationTypeId = 1;
-      const userId = 1; //change to chatId (add login column to user table)
-      const chatId = ctx.chat.id;
+      const chatId =  await ctx.chat.id;
+      const userId = await db.getUserIdByChatId(chatId);
+      console.log(userId, 'USER ID');
       const chatIdYev = Number(process.env.CHAT_ID_YEV);
       const chatIdAlina = Number(process.env.CHAT_ID_ALINA);
     

@@ -12,8 +12,13 @@ module.exports = (sequelize) => {
       },
       title: {
         type: Sequelize.STRING(100),
-        allowNull: false,
+        allowNull: true,
       },
+      chatId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
+      }
     },
     { timestamps: false }
   );

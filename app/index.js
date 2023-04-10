@@ -34,12 +34,6 @@ bot.action('btn_2', Stage.enter('addIncomeScene'));
 
 db.testDbConnection();
 db.sequelize.sync().then(async () => {
-  // await addExpenseToSpreadsheet({
-  //   category: 'Продукти',
-  //   description: 'Test ALDI',
-  //   price: 87.5,
-  //   date: '2023-04-10',
-  // });
 });
 
 bot.launch();
