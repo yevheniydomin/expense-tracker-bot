@@ -30,3 +30,6 @@ typings/
 # dotenv environment variables file
 .env
 .env.example
+
+# google credentials
+google.credentials.json

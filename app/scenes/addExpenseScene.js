@@ -1,6 +1,9 @@
 const { Scenes, Markup, Composer } = require('telegraf');
 const db = require('../db');
-const { getCategoryMarkdownButtons, getDatesMarkdownButtons } = require('../common/buttons');
+const {
+  getCategoryMarkdownButtons,
+  getDatesMarkdownButtons,
+} = require('../common/buttons');
 const moment = require('moment');
 
 const categoryStep = new Composer();
@@ -58,13 +61,21 @@ dateStep.on('callback_query', async (ctx) => {
     const categoryTitle = await db.getCategoryTitleById(categoryId);
     const summaryString = `Confirm adding a new expense: \n\n [${date}] <b>${categoryTitle}</b>: <i>${description}</i> - <b>${price} £</b> \n`;
     const confirmAndEditButtons = [
-      [Markup.button.callback('✅', 'confirm'), Markup.button.callback('🙅‍♂️', 'cancel')],
+      [
+        Markup.button.callback('✅', 'confirm'),
+        Markup.button.callback('🙅‍♂️', 'cancel'),
+      ],
     ];
-    await ctx.replyWithHTML(summaryString, Markup.inlineKeyboard(confirmAndEditButtons));
+    await ctx.replyWithHTML(
+      summaryString,
+      Markup.inlineKeyboard(confirmAndEditButtons)
+    );
 
     return ctx.wizard.next();
   } catch (err) {
-    ctx.reply('Error has been occured on dateStep wizard scene. Please see console.');
+    ctx.reply(
+      'Error has been occured on dateStep wizard scene. Please see console.'
+    );
     console.error(err);
   }
 });
@@ -76,7 +87,14 @@ addExpenseToDB.on('callback_query', async (ctx) => {
       const { categoryId, description, price, date } = ctx.scene.session;
       const transationTypeId = 1;
       const userId = 1; //change to chatId (add login column to user table)
-      await db.addExpense({ description, price, categoryId, date, transationTypeId, userId });
+      await db.addExpense({
+        description,
+        price,
+        categoryId,
+        date,
+        transationTypeId,
+        userId,
+      });
       await ctx.deleteMessage();
       ctx.reply('Expense has been successfully added 👍');
       return ctx.scene.leave();

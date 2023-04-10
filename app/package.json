@@ -20,6 +20,7 @@
   "homepage": "https://github.com/yevheniydomin/fin-tracker-bot#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
+    "googleapis": "^114.0.0",
     "moment": "^2.29.4",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",

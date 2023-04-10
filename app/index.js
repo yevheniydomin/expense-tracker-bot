@@ -35,6 +35,14 @@ bot.action('btn_2', Stage.enter('addIncomeScene'));
 
 db.testDbConnection();
 db.sequelize.sync().then(async () => {
+  const addExpenseToSpreadsheet = require('./google/index');
+  await addExpenseToSpreadsheet({ 
+    category: 'Продукти',
+    description: 'Test ALDI',
+    price: 87.50,
+    date: '2023-04-10'
+  });
+
   await db.addExpense({
     userId: 1,
     categoryId: 1,
