@@ -5,6 +5,7 @@ const {
   getDatesMarkdownButtons,
 } = require('../common/buttons');
 const moment = require('moment');
+const addExpenseToSpreadsheet = require('../google/index');
 
 const categoryStep = new Composer();
 categoryStep.on('callback_query', async (ctx) => {
@@ -95,7 +96,15 @@ addExpenseToDB.on('callback_query', async (ctx) => {
         transationTypeId,
         userId,
       });
+
+      await addExpenseToSpreadsheet({
+        categoryId,
+        description,
+        price,
+        date
+      });
       await ctx.deleteMessage();
+      
       ctx.reply('Expense has been successfully added 👍');
       return ctx.scene.leave();
     }

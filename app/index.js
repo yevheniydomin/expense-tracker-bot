@@ -9,6 +9,7 @@ const {
 } = require('telegraf');
 require('dotenv').config();
 const db = require('./db');
+const addExpenseToSpreadsheet = require('./google/index');
 const sendMainMenuButtons = require('./scenes/botStart');
 const addExpenseScene = require('./scenes/addExpenseScene');
 const addIncomeScene = require('./scenes/addIncomeScene');
@@ -35,21 +36,12 @@ bot.action('btn_2', Stage.enter('addIncomeScene'));
 
 db.testDbConnection();
 db.sequelize.sync().then(async () => {
-  const addExpenseToSpreadsheet = require('./google/index');
-  await addExpenseToSpreadsheet({ 
-    category: 'Продукти',
-    description: 'Test ALDI',
-    price: 87.50,
-    date: '2023-04-10'
-  });
-
-  await db.addExpense({
-    userId: 1,
-    categoryId: 1,
-    comment: 'Blue Traktor',
-    price: 38.5,
-    date: '2023-04-07',
-  });
+  // await addExpenseToSpreadsheet({
+  //   category: 'Продукти',
+  //   description: 'Test ALDI',
+  //   price: 87.5,
+  //   date: '2023-04-10',
+  // });
 });
 
 bot.launch();

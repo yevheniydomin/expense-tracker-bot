@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
 const moment = require('moment');
+const { getCategoryTitleById } = require('../db');
 
 const auth = new google.auth.GoogleAuth({
   keyFile: '../google.credentials.json',
@@ -11,10 +12,10 @@ const client = async () => await auth.getClient();
 const googleSheets = google.sheets({ version: 'v4', auth: client });
 
 const addExpenseToSpreadsheet = async function (transactionObj) {
-  const { category, description, price, date } = transactionObj;
+  const { categoryId, description, price, date } = transactionObj;
+  const category = await getCategoryTitleById(categoryId);
   const spreadsheetId = process.env.SPREADSHEET_ID;
   const month = await moment(date, 'MMMM-MM-DD').format('MMM');
-  console.log(month, ' MONTH!');
   reversedDateFormat = await moment(date).format('DD/MM/YYYY');
 
   try {
