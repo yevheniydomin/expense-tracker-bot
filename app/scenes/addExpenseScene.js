@@ -88,6 +88,10 @@ addExpenseToDB.on('callback_query', async (ctx) => {
       const { categoryId, description, price, date } = ctx.scene.session;
       const transationTypeId = 1;
       const userId = 1; //change to chatId (add login column to user table)
+      const chatId = ctx.chat.id;
+      const chatIdYev = Number(process.env.CHAT_ID_YEV);
+      const chatIdAlina = Number(process.env.CHAT_ID_ALINA);
+    
       await db.addExpense({
         description,
         price,
@@ -96,16 +100,22 @@ addExpenseToDB.on('callback_query', async (ctx) => {
         transationTypeId,
         userId,
       });
-
-      await addExpenseToSpreadsheet({
-        categoryId,
-        description,
-        price,
-        date
-      });
-      await ctx.deleteMessage();
       
-      ctx.reply('Expense has been successfully added 👍');
+      if(ctx.chat.id === chatIdYev || chatIdAlina ) {
+        ctx.chat.id === chatIdYev ? tabTitle = process.env.GS_TAB_TITLE_YEV : process.env.GS_TAB_TITLE_ALINA;
+        await addExpenseToSpreadsheet({
+          categoryId,
+          description,
+          price,
+          date,
+          tabTitle,
+        });
+        await ctx.reply('Expense has been added to the spreadsheet 👍');
+      }
+      
+      await ctx.deleteMessage();
+
+      await ctx.reply('Expense has been added to DB 👍');
       return ctx.scene.leave();
     }
     await ctx.deleteMessage();

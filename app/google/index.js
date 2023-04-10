@@ -12,7 +12,7 @@ const client = async () => await auth.getClient();
 const googleSheets = google.sheets({ version: 'v4', auth: client });
 
 const addExpenseToSpreadsheet = async function (transactionObj) {
-  const { categoryId, description, price, date } = transactionObj;
+  const { categoryId, description, price, date, tabTitle } = transactionObj;
   const category = await getCategoryTitleById(categoryId);
   const spreadsheetId = process.env.SPREADSHEET_ID;
   const month = await moment(date, 'MMMM-MM-DD').format('MMM');
@@ -22,7 +22,7 @@ const addExpenseToSpreadsheet = async function (transactionObj) {
     await googleSheets.spreadsheets.values.append({
       auth,
       spreadsheetId,
-      range: 'Cash Flow 2023!A:H',
+      range: `${tabTitle}!A:H`,
       valueInputOption: 'RAW',
       resource: {
         values: [
