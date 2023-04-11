@@ -39,15 +39,15 @@ priceStep.on('message', async (ctx) => {
     const buttons = await getDatesMarkdownButtons();
 
     // Validate price input
-    const regex = /^\d+(?:\.\d{0,2})$/;
-    if (regex.test(ctx.message.text)) {
+    if (ctx.message.text.match(/^-?\d*(\.\d+)?$/)) {
       ctx.scene.session.price = Number(ctx.message.text);
       await ctx.deleteMessage();
       await ctx.reply('Chose the date:\n', Markup.inlineKeyboard(buttons));
       return ctx.wizard.next();
     }
-    await ctx.deleteMessage();
-    await ctx.reply('Repeat using finance format like 10.00');
+    await ctx.deleteMessage(); 
+    await ctx.reply('This number format is not acceptable.\nPlease use format like 10.50 or 10');
+  
   } catch (err) {
     console.log('Error occured on adding price step\n', err);
   }

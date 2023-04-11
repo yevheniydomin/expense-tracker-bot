@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const categoryList = require('../defaultData/dbData');
+const categoryList = require('./db_init_data/dbData');
 
 //const sequelize = new Sequelize('postgres://yev:qwerty2023@localhost:5432/dev');
 const sequelize = new Sequelize(
